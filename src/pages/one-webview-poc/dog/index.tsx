@@ -1,24 +1,21 @@
 import { useSingleWebviewRouter } from '@/page-src/one-webview-poc/use-single-webview-router'
 
-export const Index = () => {
+const Index = () => {
   const router = useSingleWebviewRouter()
 
-  const onClick = (e) => {
-    router.push(`${e.target.dataset.name}`)
+  const onClick = () => {
+    router.push(`/one-webview-poc/dog/retriever`)
   }
 
   return (
     <section>
       <div>
-        <button data-name='retriever' onClick={onClick} type='button'>
+        <button onClick={onClick} type='button'>
           retriever
-        </button>
-      </div>
-      <div>
-        <button data-name='siba' onClick={onClick} type='button'>
-          siba
         </button>
       </div>
     </section>
   )
 }
+
+export default Index

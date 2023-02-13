@@ -1,20 +1,15 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 
 export const useSingleWebviewRouter = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   const push = (url: string) => {
-    window.dispatchEvent(new CustomEvent('push', { detail: url }));
-    router.push(url);
-  };
-  const back = () => {
-    window.dispatchEvent(new CustomEvent('pop', { detail: router.route }));
-    router.back();
-  };
+    window.dispatchEvent(new CustomEvent('push'))
+    router.push(url)
+  }
 
   return {
     ...router,
     push,
-    back,
-  };
-};
+  }
+}

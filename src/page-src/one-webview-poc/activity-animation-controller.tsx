@@ -1,15 +1,7 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion, useAnimation } from 'framer-motion'
 import { useEffect, useState } from 'react'
-/* 
-todo
 
-- when history stack pushed, animate slide in from right to left
-    - if current page's url is in history stack, don't animate 
-    - if history stack's length higher than 1, hide native back button and bottom nav (O)
-- when history stack popped, animate slide out to right
-    - if device os is ios, don't exit animate
-
-*/
+import { useSingleWebviewRouter } from './use-single-webview-router'
 
 enum AnimationState {
   Hide = 'hide',
@@ -32,37 +24,58 @@ interface Props {
 }
 
 export const ActivityAnimationController = ({ children }: Props) => {
-  const [enableAnimation, setEnableAnimation] = useState(false)
+  const router = useSingleWebviewRouter()
+
+  const [enableAnimation, setEnableAnimation] = useState(true)
 
   useEffect(() => {
     const handlePush = () => {
+      console.log('push')
+
       setEnableAnimation(true)
     }
 
+    window.addEventListener('push', handlePush)
+
     const handlePop = () => {
+      console.log('pop', router.route)
+
       setEnableAnimation(false)
     }
 
-    window.addEventListener('push', handlePush)
-    window.addEventListener('pop', handlePop)
+    window.addEventListener('popstate', handlePop)
 
     return () => {
       window.removeEventListener('push', handlePush)
-      window.removeEventListener('pop', handlePop)
+      window.removeEventListener('popstate', handlePop)
     }
   }, [])
 
-  console.log('enableAnimation', enableAnimation)
+  const onClickBack = () => {
+    router.back()
+  }
 
-  return enableAnimation ? (
-    <main>{children}</main>
-  ) : (
-    <motion.main
-      initial={AnimationState.Hide}
-      animate={AnimationState.Show}
-      variants={variants}
-      transition={{ duration: 0.5, ease: 'easeInOut' }}>
-      {children}
-    </motion.main>
+  return (
+    <AnimatePresence initial={false} mode='wait'>
+      <motion.main
+        key={router.route}
+        initial={enableAnimation ? AnimationState.Hide : AnimationState.Show}
+        animate={AnimationState.Show}
+        exit={AnimationState.Hide}
+        variants={variants}
+        transition={{ duration: 1, ease: 'easeInOut' }}>
+        <>
+          <div>
+            {router.route !== '/' && (
+              <button type='button' onClick={onClickBack}>
+                back!
+              </button>
+            )}
+          </div>
+
+          {children}
+        </>
+      </motion.main>
+    </AnimatePresence>
   )
 }
