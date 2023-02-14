@@ -5,14 +5,14 @@ const Index = () => {
 
   return (
     <section>
-      <div>메뉴를 선택해!</div>
+      <div>메뉴를 선택</div>
 
       <button
         type='button'
         onClick={() => {
           router.push(`one-webview-poc/dog`)
         }}>
-        개로 이동
+        dog 페이지로 이동
       </button>
     </section>
   )

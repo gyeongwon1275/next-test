@@ -6,8 +6,6 @@ export const Retriever = () => {
   return (
     <div>
       <h2>Retriever</h2>
-
-      <button onClick={() => router.back()}>go back!</button>
     </div>
   )
 }

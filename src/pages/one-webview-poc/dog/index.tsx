@@ -11,7 +11,7 @@ const Index = () => {
     <section>
       <div>
         <button onClick={onClick} type='button'>
-          retriever
+          retriever 페이지로 이동
         </button>
       </div>
     </section>
