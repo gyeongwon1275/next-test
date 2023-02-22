@@ -17,9 +17,9 @@ export default function Home() {
         <button
           type='button'
           onClick={() => {
-            router.push(`one-webview-poc`)
+            router.push(`swipe-poc`)
           }}>
-          webview test
+          swipe test
         </button>
       </main>
     </>
